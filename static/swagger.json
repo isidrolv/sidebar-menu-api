@@ -1,0 +1,203 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Sidebar mega-menu Flask API",
+    "description": "This is a sample server for a sidebar mega-menu.  You can find out more about Swagger at [https://swagger.io](https://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+    "termsOfService": "https://swagger.io/terms/",
+    "contact": {
+      "email": "isidrolv@gmail.com",
+      "name": "Isidro Leos Viscencio",
+      "url": "https://isidrolv.github.io",
+      "x-twitter": "isidrolv",
+      "x-github": "isidrolv",
+      "x-linkedin": "isidrolv",
+      "x-stackoverflow": "isidrolv",
+      "x-facebook": "isidrolv",
+      "x-instagram": "isidrolv",
+      "x-youtube": "isidrolv"
+    },
+    "version": "1.0.0-SNAPSHOT"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Returns message showing app is up",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/api/v1/helloWorld": {
+      "get": {
+        "description": "Returns message showing app is up",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/api/v1/healthCheck": {
+      "get": {
+        "description": "Returns message showing app is up",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "description": "Returns the user data for the user based on the user's role",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "body",
+            "description": "User id from the active directory, by example N354791",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/api/v1/menu": {
+      "post": {
+        "description": "Returns the menu data for the user based on the user's role",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "body",
+            "description": "User id from the active directory, by example N354791",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserMenuRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/UserMenuResponse"
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "LoginRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "LoginResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "apiToken": {
+          "type": "string"
+        }
+      }
+    },
+    "UserMenuRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        }
+      }
+    },
+    "UserMenuResponse": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "menu": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Menu"
+          }
+        }
+      }
+    },
+    "Menu": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "isRoot": {
+          "type": "boolean"
+        },
+        "hasChildren": {
+          "type": "boolean"
+        },
+        "route": {
+          "type": "string"
+        },
+        "parentId": {
+          "type": "integer"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Menu"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,30 +1,72 @@
-from flask import Flask
+from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
+from flask_swagger_ui import get_swaggerui_blueprint
 
+# Swagger UI
+SWAGGER_URL = "/swagger"
+API_URL = "/static/swagger.json"
+
+# Call factory function to create our blueprint
+swagger_ui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': 'Access API'
+    }
+)
+
+# Create an instance of our Flask app.
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'S3cret!123.456'
 app.config['CORS_HEADERS'] = 'Content-Type'
-
+# Register blueprint at URL
+app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
+# Enable CORS
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
+# Define a handler for the /hello route, which
 @app.route('/api/v1/helloWorld', methods=['GET'])
 @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 def hello_world():  # put application's code here
-    return 'Hello World!'
+    return jsonify({"message": 'Hello World!', "status": 200})
 
 
+# Define a handler for the /healthCheck route, which
 @app.route('/api/v1/healthCheck', methods=['GET'])
 @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 def health_check():
     return {'status': 'UP', 'message': 'This guy is healthy!'}
 
 
-@app.route('/api/v1/menu', methods=['GET'])
+# Define a handler for the /login route, which
+@app.route('/api/v1/login', methods=['POST'])
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
+def login():
+    data = request.get_json()
+    username = data['username']
+    password = data['password']
+    print(request.get_json())
+    if username == 'admin' and password == '4dm!n123.,':
+        message = f'Login successful for {username}!'
+        api_token = 'A1D2F3B4z5s6r7k8d9d0b'
+        status = 'success'
+    else:
+        message = 'Login failed!'
+        api_token = None
+        status = 'failed'
+
+    return jsonify({'userId': status, 'message': message, 'apiToken': api_token})
+
+
+# Define a handler for the /menu route, which return the user menu based on the user role
+@app.route('/api/v1/menu', methods=['POST'])
 @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 def menu():
+    data = request.get_json()
+    user_id = data['user_id']
     return [  # Dummy data for the beginning
-        {"id": 1, "name": 'Home', "icon": 'home', "isRoot": "true", "hasChildren": "false", "route": '/home',
+        {"id": 1, "name": f'{user_id}->Home', "icon": 'home', "isRoot": "true", "hasChildren": "false", "route": '/home',
          "parentId": None},
         {"id": 2, "name": 'About', "icon": 'info', "isRoot": "true", "hasChildren": "false", "route": '/about',
          "parentId": None},
@@ -63,4 +105,4 @@ def menu():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host='127.0.0.1', port=5000)
