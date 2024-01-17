@@ -24,6 +24,18 @@ app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 # Enable CORS
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+# Database configuration
+CREDS = 'isidrolv:7DpqCM9gJRPFCTbEOoWh0w'
+URL = 'wan-shadow-1792.g8z.cockroachlabs.cloud'
+DB_NAME = 'defaultdb'
+app.config['COCKROACH_DB_URI'] = f'postgresql://{CREDS}@{URL}:26257/{DB_NAME}?sslmode=verify-full'
+
+
+@app.route('/', methods=['GET'])
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
+def index():
+    return 'Welcome to Access API!'
+
 
 # Define a handler for the /hello route, which
 @app.route('/api/v1/helloWorld', methods=['GET'])
@@ -104,5 +116,14 @@ def menu():
     ]
 
 
+@app.route('/api/v1/clientes', methods=['GET'])
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
+def clientes():
+    return [
+        {"id": 1, "nombre": 'Isidro', "apellidoPaterno": 'Lopez', "apellidoMaterno": 'Vazquez', "direccion": 'Diego de Montemayor 631', "telefono": '8184611746', "email": 'isidrolv@gmail.com'},
+        {"id": 2, "nombre": 'Luis', "apellidoPaterno": 'Lopez', "apellidoMaterno": 'Vazquez', "direccion": 'Diego de Montemayor 631', "telefono": '8184611746', "email": 'isidro.leos@hotmail.com'}
+    ]
+
+
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    app.run(debug=True, host='127.0.0.1', port=8080)

@@ -117,6 +117,25 @@
           }
         }
       }
+    },
+    "/api/v1/clientes": {
+      "get": {
+        "description": "Returns the list of clients",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Cliente"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -196,6 +215,107 @@
           "items": {
             "$ref": "#/definitions/Menu"
           }
+        }
+      }
+    },
+    "Cliente": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "nombre": {
+          "type": "string"
+        },
+        "apellidoPaterno": {
+          "type": "string"
+        },
+        "apellidoMaterno": {
+          "type": "string"
+        },
+        "rfc": {
+          "type": "string"
+        },
+        "direccion": {
+          "type": "string"
+        },
+        "telefono": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "contacto": {
+          "type": "string"
+        },
+        "estatus": {
+          "type": "string"
+        },
+        "fechaAlta": {
+          "type": "string"
+        },
+        "fechaBaja": {
+          "type": "string"
+        },
+        "fechaUltimaCompra": {
+          "type": "string"
+        },
+        "fechaUltimoPago": {
+          "type": "string"
+        },
+        "saldo": {
+          "type": "number"
+        },
+        "limiteCredito": {
+          "type": "number"
+        },
+        "diasCredito": {
+          "type": "integer"
+        },
+        "observaciones": {
+          "type": "string"
+        },
+        "idUsuario": {
+          "type": "integer"
+        },
+        "idEmpresa": {
+          "type": "integer"
+        },
+        "idSucursal": {
+          "type": "integer"
+        },
+        "idListaPrecios": {
+          "type": "integer"
+        },
+        "idMetodoPago": {
+          "type": "integer"
+        },
+        "idFormaPago": {
+          "type": "integer"
+        },
+        "idUsoCfdi": {
+          "type": "integer"
+        },
+        "idTipoCliente": {
+          "type": "integer"
+        },
+        "idTipoPersona": {
+          "type": "integer"
+        },
+        "idTipoRegimen": {
+          "type": "integer"
+        },
+        "idTipoComprobante": {
+          "type": "integer"
+        },
+        "idTipoFactor": {
+          "type": "integer"
+        },
+        "idTipoRelacion": {
+          "type": "integer"
+        },
+        "idTipoMoneda": {
+          "type": "integer"
         }
       }
     }
